@@ -1,4 +1,3 @@
-
 joystick = {}
 
 local lastButton = 0
@@ -23,7 +22,7 @@ function joystick.controllerExists(controller)
 	end
 end
 
---We can use this function to add buttons to the table of buttons.
+-- We can use this function to add buttons to the table of buttons.
 function joystick.addButton(name, controller, key)
 	if controllerGroup[controller] ~= nil then
 		if not controllerGroup[controller].buttonGroup[name] then
@@ -46,7 +45,7 @@ function joystick.addButton(name, controller, key)
 	end
 end
 
---Does the same as the function above but instead removes buttons from the buttons table.
+-- Does the same as the function above but instead removes buttons from the buttons table.
 function joystick.popButton(name, controller, btn)
 	if controllerGroup[controller] then
 		for i, button in pairs(controller.buttonGroup) do
@@ -61,7 +60,7 @@ function joystick.popButton(name, controller, btn)
 	end
 end
 
---This function should be called from the main.lua/keyPressed hook function.
+-- This function should be called from the main.lua/keyPressed hook function.
 function joystick.press(controller, btn)
 	if controllerGroup[controller] then
 		for i, button in pairs(controllerGroup[controller].buttonGroup) do
@@ -77,12 +76,15 @@ function joystick.press(controller, btn)
 		controllerGroup[controller].lastButton = btn
 	end
 
-	--print("You pressed " ..btn .." on controller " ..controller .."!")
+	-- print("You pressed " ..btn .." on controller " ..controller .."!")
 end
 
---The most important function. When it is called it checks if any of the buttons in the table of registered buttons is being pressed.
---If they are not being pressed any longer it will change their pressed state to false.
---This function should be called done every update.
+--[[
+	The most important function. When it is called it checks if any of the buttons in the table of registered buttons is being pressed.
+	If they are not being pressed any longer it will change their pressed state to false.
+	This function should be called done every update.
+--]]
+
 function joystick.release(controller, btn)
 	if controllerGroup[controller] then
 		for i, button in pairs(controllerGroup[controller].buttonGroup) do
@@ -97,7 +99,7 @@ function joystick.release(controller, btn)
 	end
 end
 
---Calling this function returns a boolean value of true if the button with the specified name is pressed.
+-- Calling this function returns a boolean value of true if the button with the specified name is pressed.
 function joystick.check(name, controller)
 	if controller then
 		if controllerGroup[controller] then
@@ -114,14 +116,14 @@ function joystick.check(name, controller)
 	end
 end
 
---Use this function to check if a button was pressed even if it is not in the table of registered buttons.
+-- Use this function to check if a button was pressed even if it is not in the table of registered buttons.
 function joystick.checkKeycode(controller)
 	if controllerGroup[controller] then
 		return controllerGroup[controller].lastButton
 	end
 end
 
---This function checks the amount of buttons pressed.
+-- This function checks the amount of buttons pressed.
 function joystick.getPressedNum(controller)
 	if controllerGroup[controller] then
 		count = 0

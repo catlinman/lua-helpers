@@ -1,4 +1,3 @@
-
 camera = {}
 
 local current = {}

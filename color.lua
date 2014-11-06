@@ -1,4 +1,3 @@
-
 color = {}
 
 function color.createRGB(r, g, b)
@@ -78,9 +77,7 @@ function color.clamp(color)
 	return c
 end
 
---COLOR DATABASE
 color.black 	= color.createRGB(  0,   0,   0)
 color.grey 		= color.createRGB(128, 128, 128)
 color.white 	= color.createRGB(255, 255, 255)
-
 color.zero 		= color.createARGB(  0,  0,  0,  0)

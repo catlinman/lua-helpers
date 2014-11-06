@@ -1,4 +1,3 @@
-
 mouse = {}
 
 local pressedx = 0
@@ -66,8 +65,11 @@ function mouse.press(x, y, num)
 	end
 end
 
--- Mouse.release releases all keys in the mouseKeys table if they aren't pressed any longer.
--- This function should be called done every update.
+--[[
+	Mouse.release releases all keys in the mouseKeys table if they aren't pressed any longer.
+ 	This function should be called done every update.
+ --]]
+ 
 function mouse.release()
 	for i, mouseKey in pairs(mouseKeyGroup) do
 		if not daisy.isMouseButtonPressed(mouseKey.num) then

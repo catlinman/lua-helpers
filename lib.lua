@@ -1,4 +1,3 @@
-
 dofile("math.lua")
 dofile("color.lua")
 dofile("collision.lua")

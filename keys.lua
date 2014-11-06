@@ -54,7 +54,8 @@ end
 --[[
 	This function should be called from the main.lua/keyPressed hook function.
 	Main use is to check for any keys registered to the given keycode and to then execute their callbacks.
---]] 
+--]]
+
 function keys.press(keycode)
 	lastKeycode = keycode
 

@@ -1,4 +1,3 @@
-
 collision = {}
 
 function collision.box(ax1, ay1, aw, ah, bx1, by1, bw, bh)

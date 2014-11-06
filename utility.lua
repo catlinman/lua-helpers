@@ -1,6 +1,4 @@
-
--- ADDITIONAL TABLE FUNCTIONS
-
+-- Additional table functions
 function table.length(t)
 	local count = 0
 	for _ in pairs(t) do count = count + 1 end
@@ -21,8 +19,7 @@ function table.merge(t1, t2)
 	return t2
 end
 
--- ADDITIONAL STRING FUNCTIONS
-
+-- Additional string functions
 function string.split(str, delim)
 	if string.find(str, delim) == nil then
 		return { str }
