@@ -229,8 +229,18 @@ function gamestate.popDrawState(name)
 	updateStack[name] = nil
 end
 
--- Handling of gamestates inside the update calls as well as the main draw call.
+-- Returns the names of all the states inside the draw stack.
+function gamestate.getDrawStack()
+	local nameTable = {}
 
+	for i, layer in pairs(drawStack) do
+		nameTable[layer.id] = layer.name
+	end
+
+	return nameTable
+end
+
+-- Handling of gamestates inside the update calls as well as the main draw call.
 function gamestate.update(dt)
 	for i, state in pairs(updateStack) do
 		state(dt)
