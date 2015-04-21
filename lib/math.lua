@@ -1,4 +1,5 @@
 
+-- The functions hook directly into the native lua math object.
 -- Rounds a given number to a designated decimal point.
 function math.round(num, idp)
 	local mult = 10^(idp or 0)

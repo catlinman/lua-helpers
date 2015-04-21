@@ -1,4 +1,5 @@
 
+-- These functions hook directly into the native lua table and string objects.
 -- Return the length of a table.
 function table.length(t)
 	return #t

@@ -1,5 +1,5 @@
 
-gamedata = {} -- Global gamedata entry point.
+local gamedata = {} -- Gamedata library object.
 
 local db = {} -- Database storing all created data.
 local gdb = {} -- Grouped databases are entered into this table.
@@ -66,3 +66,5 @@ function gamedata.get(name)
 		print("Gamedata: The gamedata entry with the name of '" ..name .."' was not found. Make sure it has been loaded before accessing it.")
 	end
 end
+
+return gamedata

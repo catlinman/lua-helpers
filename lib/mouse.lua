@@ -1,5 +1,5 @@
 
-mouse = {} -- Mouse library entry point.
+local mouse = {} -- Mouse library object.
 
 local pressedx, pressedy = 0, 0 -- Last pressed positions.
 
@@ -139,3 +139,5 @@ function mouse.getRelativeClickedPosition()
 	local cx, cy = camera.getPosition()
 	return mouse.x + cx - width / 2, mouse.y + cy - height / 2
 end
+
+return mouse

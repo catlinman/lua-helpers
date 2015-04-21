@@ -1,7 +1,7 @@
 
 -- This script has not been optimized to use callbacks. Keep that in mind.
 
-joystick = {}
+local joystick = {} -- Stores the joystick library object.
 
 local lastButton = 0
 local controllerGroup = {}
@@ -129,4 +129,6 @@ function joystick.getPressedNum(controller)
 
 		return count
 	end
-end	
+end
+
+return joystick

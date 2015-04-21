@@ -1,5 +1,5 @@
 
-color = {} -- Color library entry point.
+local color = {} -- Color library object.
 
 -- Creates a new RGB color and fills the alpha value with the default 255 value.
 function color.createRGB(ar, ag, ab)
@@ -91,3 +91,5 @@ color.grey 	= color.createRGB(128, 128, 128)
 color.white = color.createRGB(255, 255, 255)
 
 color.zero 	= color.createRGBA( 0, 0, 0, 0)
+
+return color

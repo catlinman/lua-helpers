@@ -1,5 +1,5 @@
 
-collision = {} -- Global collision library entry point.
+local collision = {} -- Collision library object.
 
 -- Returns true if two boxes intersect.
 function collision.box(ax1, ay1, aw, ah, bx1, by1, bw, bh)
@@ -17,3 +17,5 @@ function collision.box3d(ax1, ay1, az1, aw, ah, ad, bx1, by1, bz1, bw, bh, bd)
 	local ax2, ay2, az2, bx2, by2, bz2 = ax1 + aw, ay1 + ah, az1 + ad, bx1 + bw, by1 + bh, bz1 + bd
 	return ax1 < bx2 and ax2 > bx1 and ay1 < by2 and ay2 > by1 and az1 < bz2 and az2 > bz1
 end
+
+return collision

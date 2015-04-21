@@ -1,5 +1,5 @@
 
-keys = {} -- Key library entry point.
+local keys = {} -- Key library object.
 
 local lastKeycode = 0 -- Last pressed keycode. Required in some sections of this script.
 local keygroup = {} -- Stores the added entries.
@@ -154,3 +154,5 @@ function keys.scope(name)
 		return false
 	end
 end
+
+return keys

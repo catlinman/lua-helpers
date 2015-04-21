@@ -1,5 +1,5 @@
 
-camera = {} -- Global camera library entry point.
+local camera = {} -- Camera module object.
 
 local current = {} -- Stores the current default camera.
 
@@ -108,3 +108,5 @@ function camera.translateParallax(x1, y1, speed)
 end
 
 current = camera.create()
+
+return camera

@@ -1,11 +1,11 @@
 
-gamestate = {}
+local gamestate = {} -- Gamestate library object.
 
-local currentState = ""
-local stateStack 	= {}
-local updateStack 	= {}
-local fixedUpdateStack = {}
-local renderStack	= {}
+local currentState = "" -- Stores the name of the current gamestate.
+local stateStack 	= {} -- Contains all added default gamestates.
+local updateStack 	= {} -- Stores special update gamestates.
+local fixedUpdateStack = {} -- Stores special fixed update gamestates.
+local drawStack	= {} -- Stores special draw gamesates.
 
 --[[
 	                                                                                                               
@@ -212,24 +212,24 @@ function gamestate.popFixedUpdateState(name)
 	fixedUpdateStack[name] = nil
 end
 
--- Render states are called each render and can not be interchange like a normal state.
-function gamestate.addRenderState(index, id, name, func)
-	if not renderStack[index] then
+-- Draw states are called each draw and can not be interchange like a normal state.
+function gamestate.addDrawState(index, id, name, func)
+	if not drawStack[index] then
 		if func then
-			renderStack[index] = {id = id, name = name, func = func}
+			drawStack[index] = {id = id, name = name, func = func}
 		else
-			print("Gamestate: The render state with the index of '" ..index .."' does not include a function in the parameters and will so be ignored")
+			print("Gamestate: The draw state with the index of '" ..index .."' does not include a function in the parameters and will so be ignored")
 		end
 	else
-		print("Gamestate: The render state with the index of '" ..index .."' is already in the render stack.")
+		print("Gamestate: The draw state with the index of '" ..index .."' is already in the draw stack.")
 	end
 end
 
-function gamestate.popRenderState(name)
+function gamestate.popDrawState(name)
 	updateStack[name] = nil
 end
 
--- Handling of gamestates inside the update calls as well as the main render call.
+-- Handling of gamestates inside the update calls as well as the main draw call.
 
 function gamestate.update(dt)
 	for i, state in pairs(updateStack) do
@@ -243,8 +243,10 @@ function gamestate.fixedUpdate(timestep)
 	end
 end
 
-function gamestate.render()
-	for i, state in pairs(renderStack) do
+function gamestate.draw()
+	for i, state in pairs(drawStack) do
 		state.func(state.id, state.name)
 	end
 end
+
+return gamestate

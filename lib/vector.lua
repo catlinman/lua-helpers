@@ -1,5 +1,5 @@
 
-vector = {} -- Vector library entry point.
+local vector = {} -- Vector library object.
 
 -- Calculates the distance between two points.
 function vector.distance(x1, y1, x2, y2)
@@ -21,3 +21,5 @@ function vector.normalize(x, y)
 	local lenght = math.sqrt((x * x) + (y * y)) 
 	return x / lenght, y / lenght
 end
+
+return vector
