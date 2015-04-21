@@ -1,20 +1,22 @@
-local numTable = {-1, 1}
 
+-- Rounds a given number to a designated decimal point.
 function math.round(num, idp)
 	local mult = 10^(idp or 0)
 	return math.floor(num * mult + 0.5) / mult
 end
 
+-- Randomly returns -1 or 1.
+local numTable = {-1, 1}
 function math.randNonNull()
 	return numTable[math.random(1,2)]
 end
 
+-- Clamps a number between two values.
 function math.clamp(num, min, max)
-	if num < min and min < max then num = min end
-	if num > max and max > min then num = max end
-	return num
+	return math.max(math.min(num, max), min)
 end
 
+-- Same as clamp, however the out of range value cycles to the minimum until a valid value is reached.
 function math.cycle(num, min, max)
 	local tick = 0
 
@@ -40,10 +42,12 @@ function math.cycle(num, min, max)
 	return num
 end
 
+-- Linear interpolation between two values by the factor t.
 function math.lerp(num, endNum, t)
 	return num + (endNum - num) * t
 end
 
+-- Step approximation function from one value to the other by the factor t.
 function math.step(num, endNum, s)
 	if endNum < num then
 		num = math.max(num - s, endNum)
@@ -54,6 +58,7 @@ function math.step(num, endNum, s)
 	return num
 end
 
+-- Calculate the percentage value between two numbers.
 function math.percent(startNum, endNum, percent)
 	if percent > 100 or percent < 0 then
 		percent = math.clamp(percent, 0, 100)
@@ -64,6 +69,7 @@ function math.percent(startNum, endNum, percent)
 	return num
 end
 
+-- Random range function with floating point values.
 function math.randomFloat(a, b, decimal)
 	local value_a = 1
 	local value_b = 1
@@ -87,6 +93,7 @@ function math.randomFloat(a, b, decimal)
 	end
 end
 
+-- Linear interpolation function for degrees.
 function math.lerpDeg(angle, endAngle, dt)
 	local difference = math.abs(endAngle - angle)
 
@@ -109,6 +116,7 @@ function math.lerpDeg(angle, endAngle, dt)
 	end
 end
 
+-- Linear interpolation function for radians.
 function math.lerpRad(angle, endAngle, dt)
 	local difference = math.abs(endAngle - angle)
 

@@ -1,11 +1,15 @@
-mouse = {}
 
-local pressedx = 0
-local pressedy = 0
+mouse = {} -- Mouse library entry point.
 
-local lastKeycode = -1
-local mouseKeyGroup = {}
-local mousePressedThisUpdate = false
+local pressedx, pressedy = 0, 0 -- Last pressed positions.
+
+local lastKeycode = -1 -- The last pressed keycode. Set to -1 since 0 is the first default mouse button.
+local mouseKeyGroup = {} -- Stores all added entries to the mouse input database.
+
+-- Define a set of functions used by different engines to avoid the need of heavy code modification when using another framework.
+local sizefunc = love.graphics.getDimensions() or video.getScreenSize()
+local keycodefunc = love.mouse.isDown or daisy.isMouseButtonPressed
+local positionfunc = love.mouse.getPosition() or daisy.getMousePosition()
 
 -- We can use this function to add keys to the table of mousekeys.
 function mouse.add(name, keycode)
@@ -47,10 +51,10 @@ function mouse.popCallback(name, callbackname)
 end
 
 -- Mouse.press is used to register mouse presses. It should be called in the games main.lua/mousePress function.
-function mouse.press(x, y, num)
+function mouse.press(x, y, keycode)
 	pressedx = x
 	pressedy = y
-	lastKeycode = num
+	lastKeycode = keycode
 
 	for i, mouseKey in pairs(mouseKeyGroup) do
 		if(keycode == mouseKey.keycode) then
@@ -65,19 +69,29 @@ function mouse.press(x, y, num)
 	end
 end
 
---[[
-	Mouse.release releases all keys in the mouseKeys table if they aren't pressed any longer.
- 	This function should be called done every update.
- --]]
- 
-function mouse.release()
+function mouse.release(x, y, keycode)
+	pressedx = x
+	pressedy = y
+	lastKeycode = keycode
+
 	for i, mouseKey in pairs(mouseKeyGroup) do
-		if not daisy.isMouseButtonPressed(mouseKey.num) then
+		if(keycode == mouseKey.keycode) then
+			mouseKey.pressed = false
+			
+			return
+		end
+	end
+end
+
+-- Mouse.releaseAll releases all keys in the mouseKeys table if they aren't pressed any longer.
+function mouse.releaseAll()
+	for i, mouseKey in pairs(mouseKeyGroup) do
+		if not keycodefunc(mouseKey.keycode) then
 			mouseKey.pressed = false
 		end
 	end
 
-	if not daisy.isMouseButtonPressed(lastKeycode) then
+	if not keycodefunc(lastKeycode) then
 		lastKeycode = -1
 	end
 end
@@ -93,7 +107,7 @@ end
 function mouse.checkAny()
 	for i, mouseKey in pairs(mouseKeyGroup) do
 		if mouseKey.pressed then
-			return mouseKey.num
+			return mouseKey.keycode
 		end
 	end
 
@@ -110,18 +124,18 @@ function mouse.getClickedPosition()
 end
 
 function mouse.getPosition()
-	return daisy.getMousePosition()
+	return positionfunc()
 end
 
 function mouse.getRelativePosition()
-	local width, height = video.getScreenSize()
+	local width, height = sizefunc()
 	local cx, cy = camera.getPosition()
-	local x, y = daisy.getMousePosition()
+	local x, y = positionfunc()
 	return x + cx - width / 2, y + cy - height / 2
 end
 
 function mouse.getRelativeClickedPosition()
-	local width, height = video.getScreenSize()
+	local width, height = sizefunc()
 	local cx, cy = camera.getPosition()
 	return mouse.x + cx - width / 2, mouse.y + cy - height / 2
 end

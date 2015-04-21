@@ -1,3 +1,6 @@
+
+-- This script has not been optimized to use callbacks. Keep that in mind.
+
 joystick = {}
 
 local lastButton = 0
@@ -75,15 +78,7 @@ function joystick.press(controller, btn)
 
 		controllerGroup[controller].lastButton = btn
 	end
-
-	-- print("You pressed " ..btn .." on controller " ..controller .."!")
 end
-
---[[
-	The most important function. When it is called it checks if any of the buttons in the table of registered buttons is being pressed.
-	If they are not being pressed any longer it will change their pressed state to false.
-	This function should be called done every update.
---]]
 
 function joystick.release(controller, btn)
 	if controllerGroup[controller] then

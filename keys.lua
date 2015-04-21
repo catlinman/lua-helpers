@@ -1,8 +1,10 @@
 
-keys = {}
+keys = {} -- Key library entry point.
 
-local lastKeycode = 0
-local keygroup = {}
+local lastKeycode = 0 -- Last pressed keycode. Required in some sections of this script.
+local keygroup = {} -- Stores the added entries.
+
+local keycodefunc = love.keyboard.isDown or daisy.isKeyPressed
 
 -- We can use this function to add keys to the table of keys.
 function keys.add(name, keycode)
@@ -51,11 +53,8 @@ function keys.popCallback(name, callbackname)
 	end
 end
 
---[[
-	This function should be called from the main.lua/keyPressed hook function.
-	Main use is to check for any keys registered to the given keycode and to then execute their callbacks.
---]]
-
+-- This function should be called from your keyPressed hook function.
+-- Main use is to check for any keys registered to the given keycode and to then execute their callbacks.
 function keys.press(keycode)
 	lastKeycode = keycode
 
@@ -74,18 +73,28 @@ function keys.press(keycode)
 	end
 end
 
---[[ 	
-	The most important function. When it is called it checks if any of the keys in the table of registered keys is being pressed.
-	If they are not being pressed any longer it will change their pressed state to false.
---]] 
+function keys.release(keycode)
+	lastKeycode = keycode
 
-function keys.release()
+	for i, key in pairs(keygroup) do
+		for k, code in pairs(key.keycode) do
+			if(code == keycode) then
+				key.pressed = false
+
+				return
+			end
+		end
+	end
+end
+
+function keys.releaseAll()
 	for i, key in pairs(keygroup) do
 		stillpressed = false
 
 		for k, code in pairs(key.keycode) do
-			if daisy.isKeyPressed(code) then
+			if keycodefunc(code) then
 				stillpressed = true
+				
 				break
 			end
 		end
@@ -98,7 +107,7 @@ function keys.release()
 	end
 
 	if lastKeycode then
-		if not daisy.isKeyPressed(lastKeycode) then
+		if not keycodefunc(lastKeycode) then
 			lastKeycode = 0
 		end
 	end

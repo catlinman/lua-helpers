@@ -1,95 +1,108 @@
-camera = {}
 
-local current = {}
+camera = {} -- Global camera library entry point.
 
+local current = {} -- Stores the current default camera.
+
+-- Screen size function is defined here. This allows the library to work with multiple engines without a lot of modifications.
+local sizefunc = love.graphics.getDimensions() or video.getScreenSize()
+
+-- Returns a new camera object.
 function camera.create()
-	cam = {}
+	c = {}
 
-	cam.x = 0
-	cam.y = 0
-	cam.sx = 1
-	cam.sy = 1
-	cam.rot = 0
+	c.x = 0
+	c.y = 0
+	c.sx = 1
+	c.sy = 1
+	c.rot = 0
 
-	function cam:setPosition(x, y)
+	function c:setPosition(x, y)
 		self.x = x
 		self.y = y
 	end
 
-	function cam:setScale(sx, sy)
+	function c:setScale(sx, sy)
 		self.sx = sx
 		self.sy = sy
 	end
 
-	function cam:setRotation(r)
+	function c:setRotation(r)
 		self.rot = r
 	end
 
-	function cam:getPositon()
+	function c:getPositon()
 		return self.x, self.y
 	end
 
-	function cam:getScale()
+	function c:getScale()
 		return self.sx, self.sy
 	end
 
-	function cam:getRotation()
+	function c:getRotation()
 		return self.r
 	end
 
-	return cam
+	return c
 end
 
-
-function camera.push(cam)
-	if cam.x and cam.y and cam.sx and cam.sy and cam.rot then
-		current = cam
+-- Pushes a new camera to the current default camera
+function camera.push(c)
+	if c.x and c.y and c.sx and c.sy and c.rot then -- Validate the camera object.
+		current = c
 	end
 end
 
+-- Set the position of the current camera.
 function camera.pushPosition(x, y)
 	current.x, current.y =  x, y
 end
 
+-- Set the scale of the current camera.
 function camera.pushScale(sx, sy)
 	current.sx, current.sy = 1 / sx, 1 / sy
 end
 
+-- Set the rotation of the current camera.
 function camera.pushRotation(r)
 	current.rot = r
 end
 
-
+-- Return a reference to the current camera.
 function camera.get()
 	return current
 end
 
+-- Return the x and y position value of the current camera.
 function camera.getPosition()
 	return current.x, current.y
 end
 
+-- Return the x and y scaling value of the current camera.
 function camera.getScale()
 	return current.sx, current.sy
 end
 
+-- Return the current rotation of the camera in radians.
 function camera.getRotation()
 	return current.rot
 end
 
-
+-- Return translated positional values in relation to the camera.
 function camera.translate(x1, y1)
-	local width, height = video.getScreenSize()
+	local width, height = sizefunc()
 	local x2, y2 = x1 - current.x + width / 2, y1 - current.y + height / 2
 	return x2, y2
 end
 
+-- Return translated positional values in relation to the camera without taking the actual screen properties into respect.
 function camera.translateScreen(x1, y1)
 	local x2, y2 = x1 + (current.x - x1), y1 + (current.y - y1)
 	return x2, y2
 end
 
-function camera.translateParralax(x1, y1, speed)
-	local width, height = video.getScreenSize()
+-- Return translated positional values in relation to the camera with an added parallax effect.
+function camera.translateParallax(x1, y1, speed)
+	local width, height = sizefunc()
 	local x2, y2 = x1 - current.x * speed + width / 2, y1 - current.y * speed  + height / 2
 	return x2, y2
 end
