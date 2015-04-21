@@ -31,6 +31,8 @@ function gamedata.clear(name)
 	else
 		print("Gamedata: The gamedata entry with the name of '" ..name .."' was not found or might already be unloaded.")
 	end
+
+	collectgarbage()
 end
 
 -- Remove an entire gamedata group.
@@ -45,6 +47,8 @@ function gamedata.clearGroup(gname)
 	else
 		print("Gamedata: The gamedata group entry with the name of '" ..gname .."' was not found or might already be unloaded.")
 	end
+
+	collectgarbage()
 end
 
 -- Wipe the entire database.
@@ -56,6 +60,8 @@ function gamedata.wipe()
 	for i, v in pairs(db) do
 		db[i] = nil
 	end
+
+	collectgarbage()
 end
 
 -- Get the data from an entry name within the database.
