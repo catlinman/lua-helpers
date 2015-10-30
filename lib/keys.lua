@@ -64,7 +64,7 @@ function keys.press(keycode)
 				key.pressed = true
 
 				for l, func in pairs(key.callbacks) do
-					func()
+					func(keycode)
 				end
 
 				return
